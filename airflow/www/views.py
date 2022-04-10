@@ -874,6 +874,7 @@ class Airflow(AirflowBaseView):
             status_count_active=status_count_active,
             status_count_paused=status_count_paused,
             tags_filter=arg_tags_filter,
+            auto_refresh_interval=conf.getint('webserver', 'auto_refresh_interval'),
         )
 
     @expose('/dag_stats', methods=['POST'])
@@ -5041,7 +5042,6 @@ class DagDependenciesView(AirflowBaseView):
             nodes.append(self._node_dict(dag_node_id, dag, "dag"))
 
             for dep in dependencies:
-
                 nodes.append(self._node_dict(dep.node_id, dep.dependency_id, dep.dependency_type))
                 edges.extend(
                     [
